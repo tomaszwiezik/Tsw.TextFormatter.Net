@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Tsw.TextFormatter.Net.SampleTable/Tsw.TextFormatter.Net.SampleTable.csproj" />
+  <Project Path="Tsw.TextFormatter.Net.Tests/Tsw.TextFormatter.Net.Tests.csproj" />
+  <Project Path="Tsw.TextFormatter.Net/Tsw.TextFormatter.Net.csproj" />
+</Solution>
