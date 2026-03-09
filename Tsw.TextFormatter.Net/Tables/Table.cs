@@ -44,6 +44,20 @@
         }
 
 
+        public Table AddRow(TableRow row)
+        {
+            _rows.Add(row);
+            return this;
+        }
+
+
+        public Table AddRows(IEnumerable<TableRow> rows)
+        {
+            _rows.AddRange(rows);
+            return this;
+        }
+
+
         public Table AddRowSeparator(char separatorChar = '-')
         {
             _rows.Add(new TableRowSeparator(separatorChar));

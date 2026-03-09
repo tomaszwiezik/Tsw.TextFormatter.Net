@@ -11,9 +11,10 @@ namespace Tsw.TextFormatter.Net.SampleTable
                 new Person(Name: "Bob", Age: 25, City:"Los Angeles"),
                 new Person(Name: "Charlie", Age: 999, City: "Chicago")
             ];
-            var total = new Total
+            var total = new TableRow
             {
-                TotalAge = persons.Sum(p => p.Age)
+                new TableCell { Text = "Total age", ForegroundColor = ConsoleColor.Red, Alignment = TextAlignment.Right },
+                new TableCell { Text = persons.Select(x => x.Age).Sum().ToString(), ForegroundColor = ConsoleColor.Red, Alignment = TextAlignment.Right },
             };
 
 
@@ -40,7 +41,7 @@ namespace Tsw.TextFormatter.Net.SampleTable
                 .AddRowSeparator()
                 .AddRows(persons, new PersonRowAdapter())
                 .AddRowSeparator()
-                .AddRow(total, new TotalRowAdapter())
+                .AddRow(total)
                 .WriteToConsole();
 
             Console.WriteLine();
