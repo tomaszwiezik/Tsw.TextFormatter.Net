@@ -10,7 +10,7 @@ Rows presented in tabular form, which can be added to the table in one of the fo
 * Directly, by adding `TableRow` records
 * By using `ITableRowAdapter` to convert lists to `TableRow` records
 
-Once populated with data, a table can be displayed in the console:
+Once populated with data, a table can be displayed to the console:
 ```cs
 var table = new Table(
 	columns: [...],
@@ -19,7 +19,7 @@ var table = new Table(
 // Display fully formatted table, including colors:
 table.WriteToConsole();
 
-// Display/get a text representaion of a table:
+// Display/get a text representaion of a table (colors are not included):
 var tableText = table.ToString();
 Console.WriteLine(tableText);
 ```
@@ -58,7 +58,7 @@ List<Person> persons = [
 	new Person(Name: "Charlie", Age: 999, City: "Chicago")
 ];
 
-// A sample adapter, conditional formatting added:
+// A sample adapter for persons list, conditional formatting added:
 internal class PersonRowAdapter : ITableRowAdapter<Person>
 {
 	public TableRow GetRow(Person row) => [
@@ -102,6 +102,15 @@ new Table(
 	.WriteToConsole(persons, new PersonRowAdapter());
 ```
 
+Column definition properties:
+* `Text` - column header text
+* `Alignment` - column header text alignment, `TextAlignment.Center` is the default value
+* `Width` - column width, can be set to `TextWidth.Auto` to automatically adjust to the longest cell in the column, `TextWidth.Auto` is the default value
+* `ForceWidth` - true by default; if set to true and the column has a fixed width, then the column will be truncated if the cell text is longer than the column width; if set to false, the column will not be truncated and will expand to fit the longest cell text
+* `ForegroundColor` - column header text color, not defined by default
+* `BackgroundColor` - column header background color, not defined by default
+* `CellAlignment` - cell text alignment, if not set, it will be the same as `Alignment`
+
 
 ### Custom table
 
@@ -119,14 +128,13 @@ var total = new TableRow
 	new TableCell { Text = persons.Select(x => x.Age).Sum().ToString(), ForegroundColor = ConsoleColor.Red, Alignment = TextAlignment.Right },
 };
 
-var table = new Table(
+new Table(
 	columns: [
 		new TableColumn { Text = "Name", Alignment = TextAlignment.Left, Width = 10, ForegroundColor = ConsoleColor.Green },
 		new TableColumn { Text = "Age", Alignment = TextAlignment.Right, Width = TextWidth.Auto, CellAlignment = TextAlignment.Right },
 		new TableColumn { Text = "City", Alignment = TextAlignment.Center, Width = 20, CellAlignment = TextAlignment.Center }
 		],
-	columnSpacing: 3);
-table
+	columnSpacing: 3)
 	.AddHeader()
 	.AddRowSeparator()
 	.AddRows(persons, new PersonRowAdapter())

@@ -27,7 +27,9 @@
                 var column = columns.ElementAt(columnIndex);
                 formattedRow.Add(new TableCell()
                 {
-                    Text = cell.Text.Align(cell.Alignment ?? column.CellAlignment, column.Width),
+                    Text = column.ForceWidth ? 
+                        cell.Text.Align(cell.Alignment ?? column.CellAlignment, column.Width) :
+                        cell.Text.Align(cell.Alignment ?? column.CellAlignment, Math.Max(column.Width, cell.Text.Length)),
                     Alignment = cell.Alignment ?? column.CellAlignment,
                     ForegroundColor = cell.ForegroundColor,
                     BackgroundColor = cell.BackgroundColor

@@ -32,7 +32,8 @@
                     BackgroundColor: column.BackgroundColor,
                     Alignment: column.Alignment,
                     CellAlignment: column.CellAlignment,
-                    Width: maxContentWidth
+                    Width: maxContentWidth,
+                    ForceWidth: column.ForceWidth
                 ));
             }
             return formattedColumns;

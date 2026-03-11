@@ -18,17 +18,39 @@ namespace Tsw.TextFormatter.Net.SampleTable
             };
 
 
+            Console.WriteLine("Default table (adapter's formatting applied):");
+            new Table(
+                columns: [
+                    new TableColumn { Text = "Name" },
+                    new TableColumn { Text = "Age" },
+                    new TableColumn { Text = "City" }
+                    ])
+                .WriteToConsole(persons, new PersonRowAdapter());
+            Console.WriteLine();
+
+
+            Console.WriteLine("Formatted tables:");
             new Table(
                 columns: [
                     new TableColumn { Text = "Name", Alignment = TextAlignment.Left, Width = 10, ForegroundColor = ConsoleColor.Green },
                     new TableColumn { Text = "Age", Alignment = TextAlignment.Right, Width = TextWidth.Auto, CellAlignment = TextAlignment.Right },
-                    new TableColumn { Text = "City", Alignment = TextAlignment.Center, Width = 20, CellAlignment = TextAlignment.Center }
+                    new TableColumn { Text = "City", Alignment = TextAlignment.Center, Width = 10, CellAlignment = TextAlignment.Center, ForceWidth = true }
                     ],
                 columnSpacing: 5)
                 .WriteToConsole(persons, new PersonRowAdapter());
+            Console.WriteLine();
+            new Table(
+                columns: [
+                    new TableColumn { Text = "Name", Alignment = TextAlignment.Left, Width = 10, ForegroundColor = ConsoleColor.Green },
+                    new TableColumn { Text = "Age", Alignment = TextAlignment.Right, Width = TextWidth.Auto, CellAlignment = TextAlignment.Right },
+                    new TableColumn { Text = "City", Alignment = TextAlignment.Center, Width = 10, CellAlignment = TextAlignment.Center, ForceWidth = false }
+                    ],
+                columnSpacing: 5)
+                .WriteToConsole(persons, new PersonRowAdapter());
+            Console.WriteLine();
 
 
-
+            Console.WriteLine("Custom tables:");
             var table = new Table(
                 columns: [
                     new TableColumn { Text = "Name", Alignment = TextAlignment.Left, Width = 10, ForegroundColor = ConsoleColor.Green },
@@ -40,12 +62,14 @@ namespace Tsw.TextFormatter.Net.SampleTable
                 .AddHeader()
                 .AddRowSeparator()
                 .AddRows(persons, new PersonRowAdapter())
-                .AddRowSeparator()
+                .AddRowSeparator(separatorChar: '=')
                 .AddRow(total)
                 .WriteToConsole();
-
             Console.WriteLine();
+
+
             Console.WriteLine(table.ToString());
+            Console.WriteLine();
         }
     }
 }
