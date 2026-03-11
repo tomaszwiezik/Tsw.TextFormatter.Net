@@ -27,7 +27,7 @@
                 ]);
             table.AddHeader();
 
-            Assert.Equal(string.Empty, table.ToString());
+            Assert.Equal("Column1 Column2", table.ToString());
         }
     }
 }
