@@ -1,0 +1,120 @@
+format 224
+
+classcanvas 128002 class_ref 128386 // Table
+  classdiagramsettings member_max_width 0 end
+  xyz 53 103 2000
+end
+classcanvas 128130 class_ref 128514 // TableRow
+  classdiagramsettings member_max_width 0 end
+  xyz 303 104 2000
+end
+classcanvas 128258 class_ref 128642 // TableHeaderRow
+  classdiagramsettings member_max_width 0 end
+  xyz 474 42 2000
+end
+classcanvas 128514 class_ref 128770 // TableSeparatorRow
+  classdiagramsettings member_max_width 0 end
+  xyz 470 123 2000
+end
+classcanvas 128770 class_ref 128898 // TableContentRow
+  classdiagramsettings member_max_width 0 end
+  xyz 469 205 2000
+end
+classcanvas 129282 class_ref 128002 // TextSegment
+  classdiagramsettings member_max_width 0 end
+  xyz 387 452 2000
+end
+classcanvas 129538 class_ref 128258 // TextFormatting
+  classdiagramsettings member_max_width 0 end
+  xyz 577 641 3005
+end
+classcanvas 130050 class_ref 129154 // TableCell
+  classdiagramsettings member_max_width 0 end
+  xyz 322 314 2000
+end
+classcanvas 130434 class_ref 129410 // TableColumn
+  classdiagramsettings member_max_width 0 end
+  xyz 210 449 2000
+end
+classcanvas 131074 class_ref 129538 // TableColumnList
+  classdiagramsettings member_max_width 0 end
+  xyz 28 451 2000
+end
+classcanvas 131458 class_ref 129666 // TableRowList
+  classdiagramsettings member_max_width 0 end
+  xyz 196 197 2000
+end
+classcanvas 131842 class_ref 129794 // TableCellSpacing
+  classdiagramsettings member_max_width 0 end
+  xyz 577 270 2000
+end
+classcanvas 132098 class_ref 129922 // TableCellText
+  classdiagramsettings member_max_width 0 end
+  xyz 586 358 2000
+end
+relationcanvas 128386 relation_ref 128258 // <generalisation>
+  from ref 128258 z 2001 to ref 128130
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 128642 relation_ref 128386 // <generalisation>
+  from ref 128514 z 2001 to ref 128130
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 128898 relation_ref 128514 // <generalisation>
+  from ref 128770 z 2001 to ref 128130
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 129666 relation_ref 128130 // Formatting
+  from ref 129282 z 3006 label "Formatting" italic max_width 255 xyz 485.5 513.5 3006 to ref 129538
+  no_role_a no_role_b
+  multiplicity_a_pos 553 622 3000 no_multiplicity_b
+end
+relationcanvas 130178 relation_ref 129154 // <generalisation>
+  from ref 130050 z 2001 to ref 129282
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 130306 relation_ref 129282 // Cells
+  from ref 128130 z 2001 label "Cells" italic max_width 255 xyz 335 213.5 3000 to ref 130050
+  no_role_a no_role_b
+  multiplicity_a_pos 342 295 3000 no_multiplicity_b
+end
+relationcanvas 130690 relation_ref 129538 // <generalisation>
+  from ref 130434 z 2001 to ref 129282
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 131202 relation_ref 129666 // <aggregation>
+  from ref 131074 z 2001 to ref 130434
+  no_role_a no_role_b
+  multiplicity_a_pos 195 475 3000 no_multiplicity_b
+end
+relationcanvas 131330 relation_ref 129794 // Columns
+  from ref 128002 z 2001 label "Columns" italic max_width 255 xyz 59.5 286.5 3000 to ref 131074
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 131586 relation_ref 129922 // <aggregation>
+  from ref 131458 z 2001 to ref 128130
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 131714 relation_ref 130050 // Rows
+  from ref 128002 z 2001 label "Rows" italic max_width 255 xyz 140.5 153.5 3000 to ref 131458
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 131970 relation_ref 130178 // <generalisation>
+  from ref 131842 z 2001 to ref 130050
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 132226 relation_ref 130306 // <generalisation>
+  from ref 132098 z 2001 to ref 130050
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+end

@@ -1,0 +1,18 @@
+window_sizes 1920 1009 450 1465 857 104
+
+diagrams
+  classdiagram_ref 128002 // text structure classes
+    1172 685 100 A4 0 0
+  active  classdiagram_ref 128130 // table structure classes
+    1465 857 100 A4 0 0
+  classdiagram_ref 128258 // text formatting classes
+    114 86 100 A4 0 0
+end
+show_stereotypes
+selected operation_ref 128130 // Format
+open
+  class_ref 128258 // TextFormatting
+  class_ref 129282 // TextFormatter
+  class_ref 128386 // Table
+end
+end

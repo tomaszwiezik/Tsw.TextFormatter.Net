@@ -11,7 +11,5 @@
         string Text = "",
         TextAlignment? Alignment = null,
         ConsoleColor? ForegroundColor = null,
-        ConsoleColor? BackgroundColor = null)
-        : FormattedText(
-            Text, Alignment, ForegroundColor, BackgroundColor);
+        ConsoleColor? BackgroundColor = null);
 }

@@ -1,0 +1,7 @@
+format 224
+
+classcanvas 128002 class_ref 129282 // TextFormatter
+  classdiagramsettings member_max_width 0 end
+  xyz 68 49 2000
+end
+end

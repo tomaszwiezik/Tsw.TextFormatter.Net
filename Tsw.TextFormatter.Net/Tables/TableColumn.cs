@@ -7,7 +7,5 @@
         ConsoleColor? BackgroundColor = null,
         int Width = TextWidth.Auto,
         bool ForceWidth = true,
-        TextAlignment? CellAlignment = TextAlignment.Left)
-        : FormattedText(
-            Text, Alignment, ForegroundColor, BackgroundColor);
+        TextAlignment? CellAlignment = TextAlignment.Left);
 }

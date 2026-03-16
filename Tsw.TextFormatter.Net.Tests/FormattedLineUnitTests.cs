@@ -5,10 +5,10 @@
         [Fact]
         public void TestToString()
         {
-            var formattedLine = new FormattedLine
+            var formattedLine = new TextLine
             {
-                new FormattedText { Text = "Hello" },
-                new FormattedText { Text = "World" }
+                new TextSegment { Text = "Hello" },
+                new TextSegment { Text = "World" }
             };
             Assert.Equal("HelloWorld", formattedLine.ToString());
         }

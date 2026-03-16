@@ -1,8 +1,8 @@
 ﻿namespace Tsw.TextFormatter.Net
 {
-    public record FormattedText(
-        string Text = "",
+    public record TextFormatting(
         TextAlignment? Alignment = null,
         ConsoleColor? ForegroundColor = null,
-        ConsoleColor? BackgroundColor = null);
+        ConsoleColor? BackgroundColor = null
+        );
 }

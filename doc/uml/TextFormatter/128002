@@ -1,0 +1,188 @@
+format 224
+"Common" // Common
+  revision 1
+  modified_by 2 "tomasz.wiezik"
+  // class settings
+  
+  classdiagramsettings member_max_width 0 end
+  
+  classcompositediagramsettings end
+  
+  usecasediagramsettings end
+  
+  sequencediagramsettings end
+  
+  collaborationdiagramsettings end
+  
+  objectdiagramsettings end
+  
+  objectcompositediagramsettings end
+  
+  componentdiagramsettings
+   end
+  
+  deploymentdiagramsettings
+   end
+  
+  statediagramsettings
+   end
+  
+  activitydiagramsettings
+   end
+  
+  classview 128002 "text structure"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    classdiagram 128002 "text structure classes"
+      classdiagramsettings member_max_width 0 end
+      size A4
+    end
+
+    classdiagram 128258 "text formatting classes"
+      classdiagramsettings member_max_width 0 end
+      size A4
+    end
+
+    class 128002 "TextSegment"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 128002 "Text"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 128130 // (Segments)
+	relation_ref 128002 // Segments
+      end
+
+      classrelation 128258 // (Formatting)
+	relation 128130 o--- name "Formatting"
+	  a role_name "" multiplicity "0..1" private
+	    classrelation_ref 128258 // (Formatting)
+	  b role_name "" private
+	    classrelation_ref 128386 // (Formatting)
+      end
+    end
+
+    class 128130 "TextLine"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 128002 // (Segments)
+	relation 128002 o--- name "Segments"
+	  a role_name "" multiplicity "*" private
+	    classrelation_ref 128002 // (Segments)
+	  b role_name "" private
+	    classrelation_ref 128130 // (Segments)
+      end
+    end
+
+    class 128258 "TextFormatting"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      attribute 128258 "Alignment"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 128386 "ForegroundColor"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      attribute 128514 "BackgroundColor"
+	private explicit_type ""
+	cpp_decl ""
+	java_decl ""
+	php_decl ""
+	python_decl ""
+	idl_decl ""
+	mysql_decl ""
+	MysqlColumn
+      end
+
+      classrelation 128386 // (Formatting)
+	relation_ref 128130 // Formatting
+      end
+
+    end
+
+    class 129282 "TextFormatter"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      operation 128002 "Format"
+	public return_type class_ref 128002 // TextSegment
+	nparams 2
+	  param in name "textSegment" type class_ref 128002 // TextSegment
+	  param in name "maxWidth" explicit_type "int"
+	
+	
+	
+	
+	
+      end
+    end
+  end
+end
