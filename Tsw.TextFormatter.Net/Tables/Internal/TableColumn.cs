@@ -5,6 +5,15 @@
     /// </summary>
     internal class TableColumn: TextSegment
     {
+        /// <summary>
+        /// Initializes a new instance of the TableColumn class with the specified header text, formatting, cell
+        /// formatting, width, and width enforcement option.
+        /// </summary>
+        /// <param name="text">The text to display in the column header.</param>
+        /// <param name="formatting">The formatting to apply to the column header text.</param>
+        /// <param name="cellFormatting">The formatting to apply to the content of each cell in the column.</param>
+        /// <param name="width">The preferred width of the column, in characters. Must be greater than zero.</param>
+        /// <param name="forceWidth">true to enforce the specified width exactly; otherwise, false to allow automatic adjustment.</param>
         public TableColumn(
             string text,
             TextFormatting formatting,

@@ -11,7 +11,7 @@
             new TextSegment
             {
                 Text = new string(' ', maxWidth),
-                Formatting = this.Formatting
+                Formatting = Formatting
             };
 
     }

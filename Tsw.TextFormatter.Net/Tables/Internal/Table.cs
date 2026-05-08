@@ -27,30 +27,41 @@
         public int ColumnSpacing { get; }
 
 
-        public List<TextLine> Format()
+        public List<TextLine> Build()
         {
             var columnSpacing = new TableCellSpacing();
             var lines = new List<TextLine>();
+            var columnWidths = GetMaxColumnWidths();
             foreach (var row in Rows)
             {
                 var line = new TextLine();
-                for (int i = 0; i < Columns.Count; i++)
+                for (int i = 0; i < Math.Min(Columns.Count, row.Count); i++)
                 {
                     var column = Columns[i];
-                    if (i < row.Count)
+                    var cell = row[i];
+                    if (i > 0)   // do not add spacing before the first column
                     {
-                        var cell = row[i];
-                        if (i > 0)
-                        {
-                            line.Add(columnSpacing.Format(column, ColumnSpacing));
-                        }
-                        line.Add(cell.Format(column, GetMaxColumnWidth(i)));
+                        line.Add(columnSpacing.Format(column, ColumnSpacing));
                     }
+                    line.Add(cell.Format(column, columnWidths[i]));
                 }
                 lines.Add(line);
             }
             return lines;
         }
+
+
+#warning TODO: Remove the two methods below and implement max column width calculation in TableRowList.Add and AddRange methods.
+        private int[] GetMaxColumnWidths()
+        {
+            var maxColumnWidths = new int[Columns.Count];
+            for (int i = 0; i < Columns.Count; i++)
+            {
+                maxColumnWidths[i] = GetMaxColumnWidth(i);
+            }
+            return maxColumnWidths;
+        }
+
 
         private int GetMaxColumnWidth(int columnIndex)
         {

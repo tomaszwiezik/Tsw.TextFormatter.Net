@@ -49,9 +49,9 @@
             return text;
         }
 
-        public static TextSegment Format(TextSegment textSegment, int maxWidth) =>
-            new TextSegment(
-                text: AlignText(textSegment.Text, textSegment.Formatting.Alignment, maxWidth),
-                formatting: textSegment.Formatting);
+        //public static TextSegment Format(TextSegment textSegment, int maxWidth) =>
+        //    new TextSegment(
+        //        text: AlignText(textSegment.Text, textSegment.Formatting.Alignment, maxWidth),
+        //        formatting: textSegment.Formatting);
     }
 }

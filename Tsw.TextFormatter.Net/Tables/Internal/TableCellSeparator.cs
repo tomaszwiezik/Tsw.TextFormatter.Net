@@ -9,7 +9,6 @@
         }
 
         private readonly char _separatorChar;
-        private readonly int _width;
 
 
         public override TextSegment Format(TableColumn column, int maxWidth) =>

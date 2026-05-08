@@ -97,7 +97,7 @@ namespace Tsw.TextFormatter.Net.Tables
 
         public void WriteToConsole()
         {
-            foreach (var line in _table.Format())
+            foreach (var line in _table.Build())
             {
                 foreach (var cell in line)
                 {
@@ -120,7 +120,7 @@ namespace Tsw.TextFormatter.Net.Tables
 
 
         public override string ToString() =>
-            string.Join(Environment.NewLine, _table.Format().Select(x => x.ToString()));
+            string.Join(Environment.NewLine, _table.Build().Select(x => x.ToString()));
 
 
         public string ToString<T>(IEnumerable<T> rows, ITableRowAdapter<T> rowAdapter)
