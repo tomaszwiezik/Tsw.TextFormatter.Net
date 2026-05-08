@@ -2,12 +2,10 @@
 {
     internal class Table
     {
-        public Table(
-            int columnSpacing)
+        public Table()
         {
             Columns = new TableColumnList();
             Rows = new TableRowList();
-            ColumnSpacing = columnSpacing;
         }
 
         /// <summary>
@@ -21,15 +19,9 @@
         /// </summary>
         public TableRowList Rows { get; }
 
-        /// <summary>
-        /// Gets the number of spaces between columns.
-        /// </summary>
-        public int ColumnSpacing { get; }
-
 
         public List<TextLine> Build()
         {
-            var columnSpacing = new TableCellSpacing();
             var lines = new List<TextLine>();
             var columnWidths = GetMaxColumnWidths();
             foreach (var row in Rows)
@@ -39,10 +31,6 @@
                 {
                     var column = Columns[i];
                     var cell = row[i];
-                    if (i > 0)   // do not add spacing before the first column
-                    {
-                        line.Add(columnSpacing.Format(column, ColumnSpacing));
-                    }
                     line.Add(cell.Format(column, columnWidths[i]));
                 }
                 lines.Add(line);

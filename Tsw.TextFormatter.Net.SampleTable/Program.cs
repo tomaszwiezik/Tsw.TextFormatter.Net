@@ -67,9 +67,24 @@ namespace Tsw.TextFormatter.Net.SampleTable
                 .WriteToConsole();
             Console.WriteLine();
 
-
             Console.WriteLine(table.ToString());
             Console.WriteLine();
+
+
+            Console.WriteLine("Default table (CSV):");
+            var csvTable = new Table(
+                columns: [
+                    new TableColumn { Text = "Name" },
+                    new TableColumn { Text = "Age" },
+                    new TableColumn { Text = "City" }
+                    ],
+                tableLayout: new TableLayoutCsv());
+            csvTable.WriteToConsole(persons, new PersonRowAdapter());
+            Console.WriteLine();
+
+            Console.WriteLine(csvTable.ToString());
+            Console.WriteLine();
+
         }
     }
 }

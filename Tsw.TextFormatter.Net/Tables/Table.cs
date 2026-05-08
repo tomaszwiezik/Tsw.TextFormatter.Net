@@ -10,9 +10,10 @@ namespace Tsw.TextFormatter.Net.Tables
     {
         public Table(
             List<TableColumn> columns,
-            int columnSpacing = 1)
+            ITableLayout tableLayout)
         {
-            _table = new Internal.Table(columnSpacing);
+            _tableLayout = tableLayout;
+            _table = new Internal.Table();
             _table.Columns.AddRange(columns.Select(column => new Internal.TableColumn(
                 text: column.Text,
                 formatting: new TextFormatting
@@ -31,7 +32,18 @@ namespace Tsw.TextFormatter.Net.Tables
                 forceWidth: column.ForceWidth)).ToTableHeader());
         }
 
-        private Internal.Table _table;
+        public Table(
+            List<TableColumn> columns) : this(columns, new TableLayoutTabular(columnSpacing: 1))
+        { }
+
+        [Obsolete("Use Table(List<TableColumn> columns, ITableLayout tableLayout) constructor instead.")]
+        public Table(
+            List<TableColumn> columns,
+            int columnSpacing) : this(columns, new TableLayoutTabular(columnSpacing))
+        { }
+
+        private readonly Internal.Table _table;
+        private readonly ITableLayout _tableLayout;
 
 
         private Internal.TableRowContent ToTableContentRow(TableRow row)
@@ -90,7 +102,10 @@ namespace Tsw.TextFormatter.Net.Tables
 
         public Table AddRowSeparator(char separatorChar = '-')
         {
-            _table.Rows.Add(new Internal.TableRowSeparator(_table.Columns, separatorChar));
+            if (!_tableLayout.IgnoreSeparators)
+            {
+                _table.Rows.Add(new Internal.TableRowSeparator(_table.Columns, separatorChar));
+            }
             return this;
         }
 
@@ -99,7 +114,7 @@ namespace Tsw.TextFormatter.Net.Tables
         {
             foreach (var line in _table.Build())
             {
-                foreach (var cell in line)
+                foreach (var cell in _tableLayout.Format(line))
                 {
                     if (cell.Formatting.ForegroundColor.HasValue) Console.ForegroundColor = cell.Formatting.ForegroundColor.Value;
                     if (cell.Formatting.BackgroundColor.HasValue) Console.BackgroundColor = cell.Formatting.BackgroundColor.Value;
@@ -120,7 +135,7 @@ namespace Tsw.TextFormatter.Net.Tables
 
 
         public override string ToString() =>
-            string.Join(Environment.NewLine, _table.Build().Select(x => x.ToString()));
+            string.Join(Environment.NewLine, _table.Build().Select(x => _tableLayout.Format(x).ToString()));
 
 
         public string ToString<T>(IEnumerable<T> rows, ITableRowAdapter<T> rowAdapter)

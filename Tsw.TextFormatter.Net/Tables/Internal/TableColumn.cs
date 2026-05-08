@@ -37,6 +37,10 @@
         /// </summary>
         public int Width { get; init; }
 
+        /// <summary>
+        /// If true, column width is enforced for all cells in the column by padding shorter content and truncating longer content to fit the specified width.
+        /// If false, the column width will be determined by the longest cell content in the column and shorter content will still be padded.
+        /// </summary>
         public bool ForceWidth { get; init; }
     }
 }
