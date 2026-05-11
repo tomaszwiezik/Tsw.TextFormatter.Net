@@ -13,8 +13,7 @@ Rows presented in tabular form, which can be added to the table in one of the fo
 Once populated with data, a table can be displayed to the console:
 ```cs
 var table = new Table(
-	columns: [...],
-	columnSpacing: 5)
+	columns: [...])
 	
 // Display fully formatted table, including colors:
 table.WriteToConsole();
@@ -97,8 +96,7 @@ new Table(
 		new TableColumn { Text = "Name", Alignment = TextAlignment.Left, Width = 10, ForegroundColor = ConsoleColor.Green },
 		new TableColumn { Text = "Age", Alignment = TextAlignment.Right, Width = TextWidth.Auto, CellAlignment = TextAlignment.Right },
 		new TableColumn { Text = "City", Alignment = TextAlignment.Center, Width = 20, CellAlignment = TextAlignment.Center }
-		],
-	columnSpacing: 5)
+		])
 	.WriteToConsole(persons, new PersonRowAdapter());
 ```
 
@@ -133,8 +131,7 @@ new Table(
 		new TableColumn { Text = "Name", Alignment = TextAlignment.Left, Width = 10, ForegroundColor = ConsoleColor.Green },
 		new TableColumn { Text = "Age", Alignment = TextAlignment.Right, Width = TextWidth.Auto, CellAlignment = TextAlignment.Right },
 		new TableColumn { Text = "City", Alignment = TextAlignment.Center, Width = 20, CellAlignment = TextAlignment.Center }
-		],
-	columnSpacing: 3)
+		])
 	.AddHeader()
 	.AddRowSeparator()
 	.AddRows(persons, new PersonRowAdapter())
@@ -142,3 +139,21 @@ new Table(
 	.AddRow(total)
 	.WriteToConsole();
 ```
+
+
+### Table layouts
+
+A table layout determines how the table is rendered. The library supports the following layouts:
+* `TableLayoutTabular (int columnSpacing = 1)` - the default tabular layout
+* `TableLayoutCsv (char separator = ',', bool ignoreHeader = false, bool ignoreRowSeparators = true)` - CSV format
+
+It is also possible to define a custom layout by implementing the `ITableLayout` interface.
+
+Layout usage:
+```cs
+table.ToString(layout: new TableLayoutCsv(...));
+table.WriteToConsole(layout: new TableLayoutCsv(...));
+...
+```
+
+When no layout is specified, the default `TableLayoutTabular` layout is used.

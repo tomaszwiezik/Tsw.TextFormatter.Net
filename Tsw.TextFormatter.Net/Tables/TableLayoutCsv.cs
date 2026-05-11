@@ -2,16 +2,19 @@
 {
     public class TableLayoutCsv : ITableLayout
     {
-        public TableLayoutCsv(char separator = ',', bool ignoreSeparators = true)
+        public TableLayoutCsv(char separator = ',', bool ignoreHeader = false, bool ignoreRowSeparators = true)
         {
             _cellSeparator = new TextSegment(text: separator.ToString());
-            IgnoreSeparators = ignoreSeparators;
+            IgnoreHeader = ignoreHeader;
+            IgnoreRowSeparators = ignoreRowSeparators;
         }
 
         private readonly TextSegment _cellSeparator;
 
 
-        public bool IgnoreSeparators { get; }
+        public bool IgnoreHeader { get; }
+
+        public bool IgnoreRowSeparators { get; }
 
 
         public TextLine Format(TextLine tableRow)

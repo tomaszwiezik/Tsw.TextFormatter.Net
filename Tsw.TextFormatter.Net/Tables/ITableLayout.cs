@@ -2,7 +2,8 @@
 {
     public interface ITableLayout
     {
-        public bool IgnoreSeparators { get; }
+        public bool IgnoreHeader { get; }
+        public bool IgnoreRowSeparators { get; }
         public TextLine Format(TextLine tableRow);
     }
 }

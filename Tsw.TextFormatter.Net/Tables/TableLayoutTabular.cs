@@ -2,7 +2,7 @@
 {
     public class TableLayoutTabular : ITableLayout
     {
-        public TableLayoutTabular(int columnSpacing)
+        public TableLayoutTabular(int columnSpacing = 1)
         {
             _cellSpacing = new TextSegment(text: new string(' ', columnSpacing));
         }
@@ -10,7 +10,9 @@
         private readonly TextSegment _cellSpacing;
 
 
-        public bool IgnoreSeparators => false;
+        public bool IgnoreHeader => false;
+
+        public bool IgnoreRowSeparators => false;
 
 
         public TextLine Format(TextLine tableRow)

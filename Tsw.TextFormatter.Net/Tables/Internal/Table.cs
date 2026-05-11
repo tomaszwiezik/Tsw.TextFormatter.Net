@@ -2,30 +2,29 @@
 {
     internal class Table
     {
-        public Table()
-        {
-            Columns = new TableColumnList();
-            Rows = new TableRowList();
-        }
-
         /// <summary>
         /// List of columns in the table. The order of columns in this list determines the order of columns in the output.
         /// </summary>
-        public TableColumnList Columns { get; }
+        public TableColumnList Columns { get; } = [];
 
         /// <summary>
         /// List of rows in the table. This includes all rows that will be displayed, including the header row and any separator rows.
         /// The order of rows in this list determines the order of rows in the output.
         /// </summary>
-        public TableRowList Rows { get; }
+        public TableRowList Rows { get; } = [];
 
 
-        public List<TextLine> Build()
+        public List<TextLine> Build(
+            bool ignoreHeader,
+            bool ignoreRowSeparators)
         {
             var lines = new List<TextLine>();
             var columnWidths = GetMaxColumnWidths();
             foreach (var row in Rows)
             {
+                if (row is TableRowHeader && ignoreHeader) continue;
+                if (row is TableRowSeparator && ignoreRowSeparators) continue;
+
                 var line = new TextLine();
                 for (int i = 0; i < Math.Min(Columns.Count, row.Count); i++)
                 {
@@ -39,7 +38,6 @@
         }
 
 
-#warning TODO: Remove the two methods below and implement max column width calculation in TableRowList.Add and AddRange methods.
         private int[] GetMaxColumnWidths()
         {
             var maxColumnWidths = new int[Columns.Count];

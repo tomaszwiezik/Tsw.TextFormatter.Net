@@ -1,5 +1,4 @@
-﻿using Tsw.TextFormatter.Net.Tables.Internal;
-
+﻿
 namespace Tsw.TextFormatter.Net.Tables
 {
     /// <summary>
@@ -8,57 +7,22 @@ namespace Tsw.TextFormatter.Net.Tables
     /// </summary>
     public class Table
     {
-        public Table(
-            List<TableColumn> columns,
-            ITableLayout tableLayout)
+        public Table(IEnumerable<TableColumn> columns)
         {
-            _tableLayout = tableLayout;
             _table = new Internal.Table();
-            _table.Columns.AddRange(columns.Select(column => new Internal.TableColumn(
-                text: column.Text,
-                formatting: new TextFormatting
-                {
-                    Alignment = column.Alignment,
-                    ForegroundColor = column.ForegroundColor,
-                    BackgroundColor = column.BackgroundColor
-                },
-                cellFormatting: new TextFormatting
-                {
-                    Alignment = column.CellAlignment,
-                    ForegroundColor = null,
-                    BackgroundColor = null
-                },
-                width: column.Width,
-                forceWidth: column.ForceWidth)).ToTableHeader());
+            _table.Columns.AddRange(columns.Select(column => column.ToInternalTableColumn()));
         }
 
-        public Table(
-            List<TableColumn> columns) : this(columns, new TableLayoutTabular(columnSpacing: 1))
-        { }
-
-        [Obsolete("Use Table(List<TableColumn> columns, ITableLayout tableLayout) constructor instead.")]
+        [Obsolete("Use Table(List<TableColumn> columns) constructor and layouts instead.")]
         public Table(
             List<TableColumn> columns,
-            int columnSpacing) : this(columns, new TableLayoutTabular(columnSpacing))
-        { }
+            int columnSpacing) : this(columns)
+        {
+            _columnSpacing = columnSpacing;
+        }
 
         private readonly Internal.Table _table;
-        private readonly ITableLayout _tableLayout;
-
-
-        private Internal.TableRowContent ToTableContentRow(TableRow row)
-        {
-            var internalRow = new Internal.TableRowContent();
-            internalRow.AddRange(row.Select(cell => new Internal.TableCellText(
-                text: cell.Text,
-                formatting: new TextFormatting
-                {
-                    Alignment = cell.Alignment,
-                    ForegroundColor = cell.ForegroundColor,
-                    BackgroundColor = cell.BackgroundColor
-                })));
-            return internalRow;
-        }
+        private readonly int _columnSpacing = 1;
 
 
         public Table AddHeader()
@@ -74,47 +38,48 @@ namespace Tsw.TextFormatter.Net.Tables
 
         public Table AddRow<T>(T row, ITableRowAdapter<T> rowAdapter)
         {
-            _table.Rows.Add(ToTableContentRow(rowAdapter.GetRow(row)));
+            _table.Rows.Add(rowAdapter.GetRow(row).ToInternalTableRowContent());
             return this;
         }
 
 
         public Table AddRows<T>(IEnumerable<T> rows, ITableRowAdapter<T> rowAdapter)
         {
-            _table.Rows.AddRange(rows.Select(row => ToTableContentRow(rowAdapter.GetRow(row))));
+            _table.Rows.AddRange(rows.Select(row => rowAdapter.GetRow(row).ToInternalTableRowContent()));
             return this;
         }
 
 
         public Table AddRow(TableRow row)
         {
-            _table.Rows.Add(ToTableContentRow(row));
+            _table.Rows.Add(row.ToInternalTableRowContent());
             return this;
         }
 
 
         public Table AddRows(IEnumerable<TableRow> rows)
         {
-            _table.Rows.AddRange(rows.Select(row => ToTableContentRow(row)));
+            _table.Rows.AddRange(rows.Select(row => row.ToInternalTableRowContent()));
             return this;
         }
 
 
         public Table AddRowSeparator(char separatorChar = '-')
         {
-            if (!_tableLayout.IgnoreSeparators)
-            {
-                _table.Rows.Add(new Internal.TableRowSeparator(_table.Columns, separatorChar));
-            }
+            _table.Rows.Add(new Internal.TableRowSeparator(_table.Columns, separatorChar));
             return this;
         }
 
 
-        public void WriteToConsole()
+        public void WriteToConsole() =>
+            WriteToConsole(new TableLayoutTabular(columnSpacing: _columnSpacing));
+
+
+        public void WriteToConsole(ITableLayout tableLayout)
         {
-            foreach (var line in _table.Build())
+            foreach (var line in _table.Build(tableLayout.IgnoreHeader, tableLayout.IgnoreRowSeparators))
             {
-                foreach (var cell in _tableLayout.Format(line))
+                foreach (var cell in tableLayout.Format(line))
                 {
                     if (cell.Formatting.ForegroundColor.HasValue) Console.ForegroundColor = cell.Formatting.ForegroundColor.Value;
                     if (cell.Formatting.BackgroundColor.HasValue) Console.BackgroundColor = cell.Formatting.BackgroundColor.Value;
@@ -125,17 +90,26 @@ namespace Tsw.TextFormatter.Net.Tables
             }
         }
 
-        public void WriteToConsole<T>(IEnumerable<T> rows, ITableRowAdapter<T> rowAdapter)
+
+        public void WriteToConsole<T>(IEnumerable<T> rows, ITableRowAdapter<T> rowAdapter) =>
+            WriteToConsole<T>(rows, rowAdapter, new TableLayoutTabular(columnSpacing: _columnSpacing));
+
+
+        public void WriteToConsole<T>(IEnumerable<T> rows, ITableRowAdapter<T> rowAdapter, ITableLayout layout)
         {
             AddHeader();
             AddRowSeparator();
             AddRows(rows, rowAdapter);
-            WriteToConsole();
+            WriteToConsole(layout);
         }
 
 
         public override string ToString() =>
-            string.Join(Environment.NewLine, _table.Build().Select(x => _tableLayout.Format(x).ToString()));
+            ToString(new TableLayoutTabular(columnSpacing: _columnSpacing));
+
+
+        public string ToString(ITableLayout layout) =>
+            string.Join(Environment.NewLine, _table.Build(layout.IgnoreHeader, layout.IgnoreRowSeparators).Select(x => layout.Format(x).ToString()));
 
 
         public string ToString<T>(IEnumerable<T> rows, ITableRowAdapter<T> rowAdapter)
@@ -144,6 +118,15 @@ namespace Tsw.TextFormatter.Net.Tables
             AddRowSeparator();
             AddRows(rows, rowAdapter);
             return ToString();
+        }
+
+
+        public string ToString<T>(IEnumerable<T> rows, ITableRowAdapter<T> rowAdapter, ITableLayout layout)
+        {
+            AddHeader();
+            AddRowSeparator();
+            AddRows(rows, rowAdapter);
+            return ToString(layout);
         }
 
     }

@@ -35,18 +35,16 @@ namespace Tsw.TextFormatter.Net.SampleTable
                     new TableColumn { Text = "Name", Alignment = TextAlignment.Left, Width = 10, ForegroundColor = ConsoleColor.Green },
                     new TableColumn { Text = "Age", Alignment = TextAlignment.Right, Width = TextWidth.Auto, CellAlignment = TextAlignment.Right },
                     new TableColumn { Text = "City", Alignment = TextAlignment.Center, Width = 10, CellAlignment = TextAlignment.Center, ForceWidth = true }
-                    ],
-                columnSpacing: 5)
-                .WriteToConsole(persons, new PersonRowAdapter());
+                    ])
+                .WriteToConsole(persons, new PersonRowAdapter(), new TableLayoutTabular(columnSpacing: 5));
             Console.WriteLine();
             new Table(
                 columns: [
                     new TableColumn { Text = "Name", Alignment = TextAlignment.Left, Width = 10, ForegroundColor = ConsoleColor.Green },
                     new TableColumn { Text = "Age", Alignment = TextAlignment.Right, Width = TextWidth.Auto, CellAlignment = TextAlignment.Right },
                     new TableColumn { Text = "City", Alignment = TextAlignment.Center, Width = 10, CellAlignment = TextAlignment.Center, ForceWidth = false }
-                    ],
-                columnSpacing: 5)
-                .WriteToConsole(persons, new PersonRowAdapter());
+                    ])
+                .WriteToConsole(persons, new PersonRowAdapter(), new TableLayoutTabular(columnSpacing: 5));
             Console.WriteLine();
 
 
@@ -56,15 +54,14 @@ namespace Tsw.TextFormatter.Net.SampleTable
                     new TableColumn { Text = "Name", Alignment = TextAlignment.Left, Width = 10, ForegroundColor = ConsoleColor.Green },
                     new TableColumn { Text = "Age", Alignment = TextAlignment.Right, Width = TextWidth.Auto, CellAlignment = TextAlignment.Right },
                     new TableColumn { Text = "City", Alignment = TextAlignment.Center, Width = 20, CellAlignment = TextAlignment.Center }
-                    ],
-                columnSpacing: 3);
+                    ]);
             table
                 .AddHeader()
                 .AddRowSeparator()
                 .AddRows(persons, new PersonRowAdapter())
                 .AddRowSeparator(separatorChar: '=')
                 .AddRow(total)
-                .WriteToConsole();
+                .WriteToConsole(new TableLayoutTabular(columnSpacing: 3));
             Console.WriteLine();
 
             Console.WriteLine(table.ToString());
@@ -77,12 +74,17 @@ namespace Tsw.TextFormatter.Net.SampleTable
                     new TableColumn { Text = "Name" },
                     new TableColumn { Text = "Age" },
                     new TableColumn { Text = "City" }
-                    ],
-                tableLayout: new TableLayoutCsv());
-            csvTable.WriteToConsole(persons, new PersonRowAdapter());
+                    ]);
+            csvTable.WriteToConsole(persons, new PersonRowAdapter(), new TableLayoutCsv());
             Console.WriteLine();
 
-            Console.WriteLine(csvTable.ToString());
+            Console.WriteLine(csvTable.ToString(new TableLayoutCsv()));
+            Console.WriteLine();
+
+            Console.WriteLine(csvTable.ToString(new TableLayoutCsv(ignoreHeader: true)));
+            Console.WriteLine();
+
+            Console.WriteLine(csvTable.ToString(new TableLayoutCsv(separator: ';', ignoreHeader: true)));
             Console.WriteLine();
 
         }
