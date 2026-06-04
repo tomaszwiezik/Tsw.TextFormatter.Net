@@ -1,11 +1,13 @@
-﻿namespace Tsw.TextFormatter.Net.Tests
+﻿using Tsw.TextFormatter.Net.Tables;
+
+namespace Tsw.TextFormatter.Net.Tests.Tables
 {
     public class TableUnitTest
     {
         [Fact]
         public void TestTableCreation()
         {
-            var table = new Tables.Table([]);
+            var table = new Table([]);
 
             Assert.NotNull(table);
         }
@@ -13,17 +15,17 @@
         [Fact]
         public void TextOfEmptyTableShouldBeEmpty()
         {
-            var table = new Tables.Table([]);
+            var table = new Table([]);
 
             Assert.Equal(string.Empty, table.ToString());
         }
 
         [Fact]
-        public void TestAddColumnsWithoutRenderingAnything()
+        public void TestAddColumnsWithoutConteneCells()
         {
-            var table = new Tables.Table([
-                new Tables.TableColumn(Text: "Column1"),
-                new Tables.TableColumn(Text: "Column2")
+            var table = new Table([
+                new TableColumn(Text: "Column1"),
+                new TableColumn(Text: "Column2")
                 ]);
             table.AddHeader();
 

@@ -1,7 +1,7 @@
 ﻿namespace Tsw.TextFormatter.Net
 {
     /// <summary>
-    /// A portion of text with specific formatting.
+    /// A portion of text with a specific formatting.
     /// </summary>
     public class TextSegment
     {
@@ -29,7 +29,7 @@
         public string Text { get; init; }
 
         /// <summary>
-        /// The segment formattting.
+        /// The text formattting.
         /// </summary>
         public TextFormatting Formatting { get; init; }
     }

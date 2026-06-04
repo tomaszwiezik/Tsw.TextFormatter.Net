@@ -3,48 +3,123 @@
     public class TextFormatterUnitTests
     {
         [Fact]
-        public void TestAlignTextOfAShortText()
+        public void TestAlignTextNone()
         {
-            var textToalign = "Hello World";   // 11 characters
-            var maxWidth = 14;
+            var text = " Hello World ";
 
-            Assert.Equal(textToalign, TextFormatter.AlignText(textToalign, null, maxWidth));
-            Assert.Equal($"{textToalign}   ", TextFormatter.AlignText(textToalign, TextAlignment.Left, maxWidth));
-            Assert.Equal($"   {textToalign}", TextFormatter.AlignText(textToalign, TextAlignment.Right, maxWidth));
-            Assert.Equal($" {textToalign}  ", TextFormatter.AlignText(textToalign, TextAlignment.Center, maxWidth));
-            Assert.Equal("Hello    World", TextFormatter.AlignText(textToalign, TextAlignment.Justify, maxWidth));
+            Assert.Equal(" Hello W", TextFormatter.AlignText(text, null, text.Length - 5));
+            Assert.Equal(" Hello World ", TextFormatter.AlignText(text, null, text.Length));
+            Assert.Equal(" Hello World      ", TextFormatter.AlignText(text, null, text.Length + 5));
+            Assert.Equal(string.Empty, TextFormatter.AlignText(text, null, 0));
+            Assert.Throws<ArgumentException>(() => TextFormatter.AlignText(text, null, -1));
         }
 
         [Fact]
-        public void TestAlignTextOfALongText()
+        public void TestAlignTextNoneSingleWord()
         {
-            var textToalign = "Hello World again!";   // 18 characters
-            var maxWidth = 14;
+            var text = " Hello  ";
 
-            Assert.Equal(textToalign.Substring(0, maxWidth), TextFormatter.AlignText(textToalign, null, maxWidth));
-            Assert.Equal(textToalign.Substring(0, maxWidth), TextFormatter.AlignText(textToalign, TextAlignment.Left, maxWidth));
-            Assert.Equal(textToalign.Substring(0, maxWidth), TextFormatter.AlignText(textToalign, TextAlignment.Right, maxWidth));
-            Assert.Equal(textToalign.Substring(0, maxWidth), TextFormatter.AlignText(textToalign, TextAlignment.Center, maxWidth));
-            Assert.Equal(textToalign.Substring(0, maxWidth), TextFormatter.AlignText(textToalign, TextAlignment.Justify, maxWidth));
+            Assert.Equal(" He", TextFormatter.AlignText(text, null, text.Length - 5));
+            Assert.Equal(" Hello  ", TextFormatter.AlignText(text, null, text.Length));
+            Assert.Equal(" Hello       ", TextFormatter.AlignText(text, null, text.Length + 5));
+            Assert.Equal(string.Empty, TextFormatter.AlignText(text, null, 0));
+            Assert.Throws<ArgumentException>(() => TextFormatter.AlignText(text, null, -1));
         }
 
         [Fact]
-        public void TestTextJustification()
+        public void TestAlignTextLeft()
         {
-            var textToalign = "Hello World again and again";   // 27 characters
-            string formattedText;
+            var text = " Hello World ";
 
-            formattedText = TextFormatter.AlignText(textToalign, TextAlignment.Justify, 10);
-            Assert.Equal("Hello Worl", formattedText);
-            Assert.Equal(10, formattedText.Length);
+            Assert.Equal("Hello Wo", TextFormatter.AlignText(text, TextAlignment.Left, text.Length - 5));
+            Assert.Equal("Hello World  ", TextFormatter.AlignText(text, TextAlignment.Left, text.Length));
+            Assert.Equal("Hello World       ", TextFormatter.AlignText(text, TextAlignment.Left, text.Length + 5));
+            Assert.Equal(string.Empty, TextFormatter.AlignText(text, TextAlignment.Left, 0));
+            Assert.Throws<ArgumentException>(() => TextFormatter.AlignText(text, TextAlignment.Left, -1));
+        }
 
-            formattedText = TextFormatter.AlignText(textToalign, TextAlignment.Justify, 28);
-            Assert.Equal("Hello World again  and again", formattedText);
-            Assert.Equal(28, formattedText.Length);
+        [Fact]
+        public void TestAlignTextLeftSingleWord()
+        {
+            var text = " Hello  ";
 
-            formattedText = TextFormatter.AlignText(textToalign, TextAlignment.Justify, 40);
-            Assert.Equal("Hello    World    again     and    again", formattedText);
-            Assert.Equal(40, formattedText.Length);
+            Assert.Equal("Hel", TextFormatter.AlignText(text, TextAlignment.Left, text.Length - 5));
+            Assert.Equal("Hello   ", TextFormatter.AlignText(text, TextAlignment.Left, text.Length));
+            Assert.Equal("Hello        ", TextFormatter.AlignText(text, TextAlignment.Left, text.Length + 5));
+            Assert.Equal(string.Empty, TextFormatter.AlignText(text, TextAlignment.Left, 0));
+            Assert.Throws<ArgumentException>(() => TextFormatter.AlignText(text, TextAlignment.Left, -1));
+        }
+
+        [Fact]
+        public void TestAlignTextRight()
+        {
+            var text = " Hello World ";
+
+            Assert.Equal("lo World", TextFormatter.AlignText(text, TextAlignment.Right, text.Length - 5));
+            Assert.Equal("  Hello World", TextFormatter.AlignText(text, TextAlignment.Right, text.Length));
+            Assert.Equal("       Hello World", TextFormatter.AlignText(text, TextAlignment.Right, text.Length + 5));
+            Assert.Equal(string.Empty, TextFormatter.AlignText(text, TextAlignment.Right, 0));
+            Assert.Throws<ArgumentException>(() => TextFormatter.AlignText(text, TextAlignment.Right, -1));
+        }
+
+        [Fact]
+        public void TestAlignTextRightSingleWord()
+        {
+            var text = " Hello  ";
+
+            Assert.Equal("llo", TextFormatter.AlignText(text, TextAlignment.Right, text.Length - 5));
+            Assert.Equal("   Hello", TextFormatter.AlignText(text, TextAlignment.Right, text.Length));
+            Assert.Equal("        Hello", TextFormatter.AlignText(text, TextAlignment.Right, text.Length + 5));
+            Assert.Equal(string.Empty, TextFormatter.AlignText(text, TextAlignment.Right, 0));
+            Assert.Throws<ArgumentException>(() => TextFormatter.AlignText(text, TextAlignment.Right, -1));
+        }
+
+        [Fact]
+        public void TestAlignTextCenter()
+        {
+            var text = " Hello World ";
+
+            Assert.Equal("Hello Wo", TextFormatter.AlignText(text, TextAlignment.Center, text.Length - 5));
+            Assert.Equal(" Hello World ", TextFormatter.AlignText(text, TextAlignment.Center, text.Length));
+            Assert.Equal("   Hello World    ", TextFormatter.AlignText(text, TextAlignment.Center, text.Length + 5));
+            Assert.Equal(string.Empty, TextFormatter.AlignText(text, TextAlignment.Center, 0));
+            Assert.Throws<ArgumentException>(() => TextFormatter.AlignText(text, TextAlignment.Center, -1));
+        }
+
+        [Fact]
+        public void TestAlignTextCenterSingleWord()
+        {
+            var text = " Hello  ";
+
+            Assert.Equal("Hel", TextFormatter.AlignText(text, TextAlignment.Center, text.Length - 5));
+            Assert.Equal(" Hello  ", TextFormatter.AlignText(text, TextAlignment.Center, text.Length));
+            Assert.Equal("    Hello    ", TextFormatter.AlignText(text, TextAlignment.Center, text.Length + 5));
+            Assert.Equal(string.Empty, TextFormatter.AlignText(text, TextAlignment.Center, 0));
+            Assert.Throws<ArgumentException>(() => TextFormatter.AlignText(text, TextAlignment.Center, -1));
+        }
+
+        [Fact]
+        public void TestAlignTextJustify()
+        {
+            var text = "  Hello      World again and again  ";
+
+            Assert.Equal("Hello Worl", TextFormatter.AlignText(text, TextAlignment.Justify, 10));
+            Assert.Equal("Hello World again and again", TextFormatter.AlignText(text, TextAlignment.Justify, 27));
+            Assert.Equal("Hello  World  again and  again", TextFormatter.AlignText(text, TextAlignment.Justify, 30));
+            Assert.Equal(string.Empty, TextFormatter.AlignText(text, TextAlignment.Justify , 0));
+            Assert.Throws<ArgumentException>(() => TextFormatter.AlignText(text, TextAlignment.Justify, -1));
+        }
+
+        [Fact]
+        public void TestAlignTextJustifySingleWord()
+        {
+            var text = " Hello  ";
+
+            Assert.Equal("Hel", TextFormatter.AlignText(text, TextAlignment.Justify, 3));
+            Assert.Equal("Hello", TextFormatter.AlignText(text, TextAlignment.Justify, 5));
+            Assert.Equal("Hello   ", TextFormatter.AlignText(text, TextAlignment.Justify, 8));
+            Assert.Equal(string.Empty, TextFormatter.AlignText(text, TextAlignment.Justify , 0));
+            Assert.Throws<ArgumentException>(() => TextFormatter.AlignText(text, TextAlignment.Justify, -1));
         }
 
     }

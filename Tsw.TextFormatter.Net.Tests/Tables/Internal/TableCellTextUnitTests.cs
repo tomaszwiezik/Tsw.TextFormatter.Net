@@ -1,6 +1,6 @@
 ﻿using Tsw.TextFormatter.Net.Tables.Internal;
 
-namespace Tsw.TextFormatter.Net.Tests.Internal
+namespace Tsw.TextFormatter.Net.Tests.Tables.Internal
 {
     public class TableCellTextUnitTests
     {
@@ -39,7 +39,7 @@ namespace Tsw.TextFormatter.Net.Tests.Internal
 
             var widthSmallerThanTextLength = 5;
             Assert.Equal("Hello", FormatCell("Hello World", TextAlignment.Left, width: widthSmallerThanTextLength, forceWidth: true).Text);
-            Assert.Equal("Hello", FormatCell("Hello World", TextAlignment.Right, width: widthSmallerThanTextLength, forceWidth: true).Text);
+            Assert.Equal("World", FormatCell("Hello World", TextAlignment.Right, width: widthSmallerThanTextLength, forceWidth: true).Text);
             Assert.Equal("Hello", FormatCell("Hello World", TextAlignment.Center, width: widthSmallerThanTextLength, forceWidth: true).Text);
             Assert.Equal("Hello", FormatCell("Hello World", TextAlignment.Justify, width: widthSmallerThanTextLength, forceWidth: true).Text);
 

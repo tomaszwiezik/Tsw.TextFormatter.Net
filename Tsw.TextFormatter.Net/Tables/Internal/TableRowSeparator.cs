@@ -6,7 +6,7 @@
         {
             for (int i = 0; i < columns.Count; i++)
             {
-                Add(new TableCellSeparator(separatorChar));
+                Cells.Add(new TableCellSeparator(separatorChar));
             }
         }
 

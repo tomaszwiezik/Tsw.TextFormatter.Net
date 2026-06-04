@@ -1,6 +1,6 @@
 ﻿using Tsw.TextFormatter.Net.Tables;
 
-namespace Tsw.TextFormatter.Net.Tests
+namespace Tsw.TextFormatter.Net.Tests.Tables
 {
     public class TableColumnUnitTest
     {

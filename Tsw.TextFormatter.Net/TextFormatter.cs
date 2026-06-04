@@ -11,47 +11,53 @@
         /// <returns>Returns the aligned text.</returns>
         public static string AlignText(string text, TextAlignment? alignment, int maxWidth)
         {
-            if (text.Length > maxWidth)
+            if (maxWidth < 0) throw new ArgumentException($"Argument maxWidth has a negative value");
+
+            if (alignment == null)
             {
-                return text[..maxWidth];
+                return text.PadRight(maxWidth)[..maxWidth];
             }
             else if (alignment == TextAlignment.Left)
             {
-                return text.PadRight(maxWidth);
+                return text.Trim().PadRight(maxWidth)[..maxWidth];
             }
             else if (alignment == TextAlignment.Right)
             {
-                return text.PadLeft(maxWidth);
+                text = text.Trim().PadLeft(maxWidth);
+                return text[(text.Length - maxWidth)..];
             }
             else if (alignment == TextAlignment.Center)
             {
-                var padding = (maxWidth - text.Length);
-                var leftPadding = padding / 2;
-                var rightPadding = padding - leftPadding;
-                return text.PadLeft(leftPadding + text.Length).PadRight(maxWidth);
+                text = text.Trim();
+                var leftPadding = (maxWidth - text.Length) / 2;
+                return text.PadLeft(leftPadding + text.Length).PadRight(maxWidth)[..maxWidth];
             }
             else if (alignment == TextAlignment.Justify)
             {
                 var words = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 var justifiedText = string.Empty;
-                var textLength = words.Sum(w => w.Length);
-                decimal spacesNeeded = maxWidth - textLength;
+                var totalWordsLength = words.Sum(w => w.Length);
+                decimal spacesPerGap = maxWidth - totalWordsLength;
+                if (words.Length > 1)
+                {
+                    spacesPerGap /= (words.Length - 1);
+                }
+                if (spacesPerGap < 0)
+                {
+                    spacesPerGap = 1;
+                }
                 int spacesUsed = 0;
                 for (var i = 0; i < words.Length; i++)
                 {
-                    var spacesToAdd = Convert.ToInt32(i * (spacesNeeded / (words.Length - 1))) - spacesUsed;
+                    var spacesToAdd = Convert.ToInt32(i * spacesPerGap) - spacesUsed;
                     justifiedText += new string(' ', spacesToAdd);
                     justifiedText += words[i];
                     spacesUsed += spacesToAdd;
                 }
-                return justifiedText;
+                return justifiedText.PadRight(maxWidth)[..maxWidth];
             }
             return text;
         }
 
-        //public static TextSegment Format(TextSegment textSegment, int maxWidth) =>
-        //    new TextSegment(
-        //        text: AlignText(textSegment.Text, textSegment.Formatting.Alignment, maxWidth),
-        //        formatting: textSegment.Formatting);
     }
 }

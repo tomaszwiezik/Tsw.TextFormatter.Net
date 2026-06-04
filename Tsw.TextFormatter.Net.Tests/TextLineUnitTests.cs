@@ -1,6 +1,6 @@
 ﻿namespace Tsw.TextFormatter.Net.Tests
 {
-    public class FormattedLineUnitTests
+    public class TextLineUnitTests
     {
         [Fact]
         public void TestToString()

@@ -14,53 +14,26 @@
         public TableRowList Rows { get; } = [];
 
 
-        public List<TextLine> Build(
-            bool ignoreHeader,
-            bool ignoreRowSeparators)
+        /// <summary>
+        /// Calculates max column width based on the content of the cells in the column.
+        /// </summary>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        public int GetMaxColumnContentWidth(TableColumn column)
         {
-            var lines = new List<TextLine>();
-            var columnWidths = GetMaxColumnWidths();
-            foreach (var row in Rows)
+            if (column.Width == TextWidth.Auto)
             {
-                if (row is TableRowHeader && ignoreHeader) continue;
-                if (row is TableRowSeparator && ignoreRowSeparators) continue;
-
-                var line = new TextLine();
-                for (int i = 0; i < Math.Min(Columns.Count, row.Count); i++)
-                {
-                    var column = Columns[i];
-                    var cell = row[i];
-                    line.Add(cell.Format(column, columnWidths[i]));
-                }
-                lines.Add(line);
+                var columnIndex = Columns.IndexOf(column);
+                return Rows
+                    .FindAll(row => columnIndex < row.Cells.Count)
+                    .Select(row => row.Cells.ElementAt(columnIndex).Text.Length)
+                    .DefaultIfEmpty(0)
+                    .Max();
             }
-            return lines;
-        }
-
-
-        private int[] GetMaxColumnWidths()
-        {
-            var maxColumnWidths = new int[Columns.Count];
-            for (int i = 0; i < Columns.Count; i++)
-            {
-                maxColumnWidths[i] = GetMaxColumnWidth(i);
-            }
-            return maxColumnWidths;
-        }
-
-
-        private int GetMaxColumnWidth(int columnIndex)
-        {
-            var column = Columns[columnIndex];
-            if (column.Width != TextWidth.Auto)
+            else
             {
                 return column.Width;
             }
-            return Rows
-                .FindAll(row => columnIndex < row.Count)
-                .Select(row => row.ElementAt(columnIndex).Text.Length)
-                .DefaultIfEmpty(0)
-                .Max();
         }
 
     }
